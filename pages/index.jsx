@@ -12,8 +12,24 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Hello world!</h1>
+        <h1 className={styles.title}>Randomizer</h1>
       </main>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  // Calls Holodex's API endpoint to get hololive members
+  const res = await fetch(
+    "https://holodex.net/api/v2/channels?org=Hololive&limit=100&sort=suborg&offset=4&type=vtuber"
+  );
+  const data = await res.json();
+
+  // By returning { props: { data } }, the component
+  // will receive `data` as a prop at build time
+  return {
+    props: {
+      data,
+    },
+  };
 }
