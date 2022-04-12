@@ -24,8 +24,8 @@ export default function Home({ channels }) {
         <form className={styles.formCheckbox}>
           <div className={styles.checkboxContainer}>
             <ul>
-              {data.map((streamer) => (
-                <li key={streamer.id}>
+              {data.map((streamer, index) => (
+                <li key={index}>
                   <input
                     type="checkbox"
                     className={styles.checkNames}
