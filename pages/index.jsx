@@ -2,7 +2,15 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.scss";
 
-export default function Home() {
+export default function Home({ channels }) {
+  // Removes hololive English Channel and sub channels
+  const data = channels.filter(
+    (elem) =>
+      elem.english_name &&
+      !elem.english_name.includes("(Sub)") &&
+      !elem.english_name.includes("Sub Channel")
+  );
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,6 +21,26 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Randomizer</h1>
+        <form className={styles.formCheckbox}>
+          <div className={styles.checkboxContainer}>
+            <ul>
+              {data.map((streamer) => (
+                <li key={streamer.id}>
+                  <input
+                    type="checkbox"
+                    className={styles.checkNames}
+                    id={streamer.id}
+                    name={streamer.english_name}
+                    value={streamer.english_name}
+                  />
+                  <label htmlFor={streamer.english_name}>
+                    {streamer.english_name}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </form>
       </main>
     </div>
   );
@@ -23,13 +51,13 @@ export async function getStaticProps() {
   const res = await fetch(
     "https://holodex.net/api/v2/channels?org=Hololive&limit=100&sort=suborg&offset=4&type=vtuber"
   );
-  const data = await res.json();
+  const channels = await res.json();
 
-  // By returning { props: { data } }, the component
+  // By returning { props: { channels } }, the component
   // will receive `data` as a prop at build time
   return {
     props: {
-      data,
+      channels,
     },
   };
 }

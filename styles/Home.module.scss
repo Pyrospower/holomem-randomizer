@@ -3,7 +3,6 @@
 }
 
 .main {
-  min-height: 100vh;
   padding: 4rem 0;
   flex: 1;
   display: flex;
@@ -17,4 +16,16 @@
   line-height: 1.15;
   font-size: 4rem;
   text-align: center;
+}
+
+.checkboxContainer {
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    li:not(:last-child) {
+      margin-right: 1.25rem;
+      min-width: 160px;
+    }
+  }
 }
