@@ -1,8 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.scss";
+import { useEffect, useState } from "react";
 
 export default function Home({ channels }) {
+  const [randomizer, setRandomizer] = useState(0);
   // Removes hololive English Channel and sub channels
   const data = channels.filter(
     (elem) =>
@@ -10,6 +12,29 @@ export default function Home({ channels }) {
       !elem.english_name.includes("(Sub)") &&
       !elem.english_name.includes("Sub Channel")
   );
+
+  // Handles checkbox change on click
+  const handleChange = (ev) => {
+    const isChecked = ev.target.checked;
+
+    cbVerification(isChecked);
+  };
+
+  const cbVerification = (cbIsChecked) => {
+    // If box is checked, add 1
+    if (cbIsChecked) {
+      setRandomizer(randomizer + 1);
+    }
+    // If box is unchecked, remove 1
+    if (!cbIsChecked && randomizer > 0) {
+      setRandomizer(randomizer - 1);
+    }
+  };
+
+  // Displays randomizer variable in console
+  useEffect(() => {
+    console.info(randomizer);
+  }, [randomizer]);
 
   return (
     <div className={styles.container}>
@@ -24,21 +49,44 @@ export default function Home({ channels }) {
         <form className={styles.formCheckbox}>
           <div className={styles.checkboxContainer}>
             <ul>
+              {/* One checkbox for each holomem */}
               {data.map((streamer, index) => (
                 <li key={index}>
                   <input
                     type="checkbox"
                     className={styles.checkNames}
-                    id={streamer.id}
-                    name={streamer.english_name}
-                    value={streamer.english_name}
+                    id={`chb${index}`}
+                    name={streamer.english_name
+                      .toLowerCase()
+                      .split(" ")
+                      .join("_")}
+                    defaultChecked={false}
+                    onChange={(ev) => handleChange(ev)}
                   />
-                  <label htmlFor={streamer.english_name}>
+                  <label
+                    htmlFor={streamer.english_name
+                      .toLowerCase()
+                      .split(" ")
+                      .join("_")}
+                  >
                     {streamer.english_name}
                   </label>
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* Choose button */}
+          <div className={styles.formSubmit}>
+            {randomizer > 1 && (
+              <button
+                type="submit"
+                name="submit"
+                onClick={(ev) => ev.preventDefault()}
+              >
+                Choose
+              </button>
+            )}
           </div>
         </form>
       </main>
@@ -47,6 +95,8 @@ export default function Home({ channels }) {
 }
 
 export async function getStaticProps() {
+  const twoMonths = Math.ceil(30.417 * 2 * 24 * 60 * 60 * 1);
+
   // Calls Holodex's API endpoint to get hololive members
   const res = await fetch(
     "https://holodex.net/api/v2/channels?org=Hololive&limit=100&sort=suborg&offset=4&type=vtuber"
@@ -59,5 +109,6 @@ export async function getStaticProps() {
     props: {
       channels,
     },
+    revalidate: twoMonths, // ISR
   };
 }
