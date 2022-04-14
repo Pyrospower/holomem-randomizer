@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Custom404 = () => {
   return (
-    <div className="px-8">
+    <div className="px-4 md:px-8">
       <main className="h-screen flex-1 flex flex-col justify-center items-center">
         <h1 className="text-4xl md:text-6xl text-center mb-12">
           404 - Page Not Found
