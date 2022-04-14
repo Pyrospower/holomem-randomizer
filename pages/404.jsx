@@ -1,14 +1,17 @@
 import Link from "next/link";
-import styles from "../styles/Home.module.scss";
 
 const Custom404 = () => {
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <h1>404 - Page Not Found</h1>
+    <div className="px-8">
+      <main className="h-screen flex-1 flex flex-col justify-center items-center">
+        <h1 className="text-4xl md:text-6xl text-center mb-12">
+          404 - Page Not Found
+        </h1>
 
         <Link href="/" passHref>
-          Home page
+          <a className="transition ease-in-out duration-300 text-xl font-semibold hover:opacity-80">
+            Home page
+          </a>
         </Link>
       </main>
     </div>
