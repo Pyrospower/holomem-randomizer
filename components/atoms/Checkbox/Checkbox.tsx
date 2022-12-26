@@ -1,4 +1,12 @@
-export default function Checkbox({ english_name, handleChange }) {
+interface CheckboxProps {
+  english_name: string;
+  handleChange: (ev: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export default function Checkbox({
+  english_name,
+  handleChange,
+}: CheckboxProps) {
   /*
     when a checkbox is checked:
       set some value to true maybe idk

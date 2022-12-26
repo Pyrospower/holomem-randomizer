@@ -1,12 +1,13 @@
 import Head from "next/head";
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
-import { GenFieldset } from "../components/molecules";
-import { Button } from "../components/atoms";
+import type { Channel } from "types";
+import { GenFieldset } from "@/components/molecules";
+import { Button } from "@/components/atoms";
 
-export default function Home({ channels }) {
-  const [randomizer, setRandomizer] = useState(0);
-  const formRef = useRef();
+export default function Home({ channels }: { channels: Channel[] }) {
+  const [randomizer, setRandomizer] = useState<number>(0);
+  const formRef = useRef(null);
 
   // Removes hololive English Channel and sub channels
   // TODO: Transform this into a function
@@ -50,25 +51,26 @@ export default function Home({ channels }) {
   const tempus = data.filter((holomem) => holomem.group.includes("TEMPUS"));
 
   // Handles checkbox change on click
-  const handleChange = (ev) => {
+  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = ev.target.checked;
-
-    console.log(ev.target);
 
     cbVerification(isChecked);
   };
 
   // Handles form submit
-  const handleSubmit = (ev) => {
+  const handleSubmit = (ev: FormEvent) => {
     ev.preventDefault();
 
-    // console.log(formRef.current);
+    if (!formRef.current) return;
 
-    const checkedBoxes = [...formRef.current].filter((e) => e.checked);
-    console.log(checkedBoxes);
+    const formData = new FormData(formRef.current);
+
+    formData.forEach((_value, key) => {
+      console.log(key);
+    });
   };
 
-  const cbVerification = (cbIsChecked) => {
+  const cbVerification = (cbIsChecked: boolean) => {
     // If box is checked, add 1
     if (cbIsChecked) {
       setRandomizer(randomizer + 1);
@@ -79,23 +81,10 @@ export default function Home({ channels }) {
     }
   };
 
-  // Displays randomizer variable in console
-  useEffect(() => {
-    console.info(`Randomizer value set to ${randomizer}`);
-  }, [randomizer]);
-
   return (
     <div className="px-4 md:px-8">
       <Head>
         <title>holomem randomizer</title>
-        <meta name="description" content="Randomly select a hololive member" />
-        <meta property="og:title" content="holomem randomizer"></meta>
-        <meta
-          property="og:description"
-          content="Randomly select a hololive member"
-        ></meta>
-        <meta property="og:type" content="website"></meta>
-        <link rel="icon" href="https://favmoji.asheeshh.ga/🎲" />
       </Head>
 
       <main className="py-6 flex flex-col justify-center items-center">
@@ -192,7 +181,7 @@ export async function getStaticProps() {
   const res = await fetch(
     "https://holodex.net/api/v2/channels?org=Hololive&limit=100&sort=suborg&offset=4&type=vtuber"
   );
-  const channels = await res.json();
+  const channels: Channel[] = await res.json();
 
   // By returning { props: { channels } }, the component
   // will receive `channels` as a prop at build time
