@@ -14,7 +14,7 @@ export default function Document() {
         <meta property="og:locale" content="en_US" />
         <link rel="icon" href="https://favmoji.asheeshh.ga/🎲" />
       </Head>
-      <body>
+      <body className="bg-slate-800 text-white">
         <Main />
         <NextScript />
       </body>
