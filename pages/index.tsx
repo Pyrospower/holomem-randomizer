@@ -79,7 +79,7 @@ export default function Home({ data }: { data: Channel[] }) {
 
           {/* Choose button */}
           <div className="flex justify-center">
-            {randomizer > 1 && <Button>Choose</Button>}
+            <Button visible={randomizer > 1 ? true : false}>Choose</Button>
           </div>
         </form>
       </main>
