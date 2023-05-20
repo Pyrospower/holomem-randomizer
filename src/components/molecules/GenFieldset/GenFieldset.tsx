@@ -1,4 +1,4 @@
-import type { Channel } from "types";
+import type { Channel } from "src/types";
 import { Checkbox } from "@/components/atoms";
 
 interface FieldsetProps {
@@ -19,7 +19,11 @@ export default function GenFieldset({
       </legend>
       {/* One checkbox for each holomem */}
       {generation.map((streamer, index) => (
-        <Checkbox {...streamer} handleChange={handleChange} key={index} />
+        <Checkbox
+          english_name={streamer.english_name ?? streamer.name}
+          handleChange={handleChange}
+          key={index}
+        />
       ))}
     </fieldset>
   );

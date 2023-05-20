@@ -2,8 +2,8 @@
 import { useRef, useState } from "react";
 import { GenFieldset } from "@/components/molecules";
 import { Button } from "@/components/atoms";
-import { Channel, Generation } from "types";
-import { groupByGeneration } from "@/utils/sorting";
+import { Channel, Generation } from "src/types";
+import { groupByGeneration } from "src/utils/sorting";
 
 // might need to use randomizer and handleSubmit as props
 interface FormProps {

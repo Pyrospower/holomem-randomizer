@@ -16,8 +16,6 @@ export default async function Page() {
         <h1 className="text-4xl md:text-6xl mb-6">Randomizer</h1>
         <Form data={channels} />
       </main>
-
-      {/* <div>{JSON.stringify(channels)}</div> */}
     </div>
   );
 }
