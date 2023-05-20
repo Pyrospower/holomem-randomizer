@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { FormEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import type { Channel, Generation } from "types";
 import { GenFieldset } from "@/components/molecules";
@@ -28,7 +28,7 @@ export default function Home({ data }: { data: Channel[] }) {
   };
 
   // Handles form submit
-  const handleSubmit = (ev: FormEvent) => {
+  const handleSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();
 
     if (!formRef.current) return;

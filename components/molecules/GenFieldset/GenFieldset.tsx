@@ -1,4 +1,4 @@
-import { Channel } from "types";
+import type { Channel } from "types";
 import { Checkbox } from "@/components/atoms";
 
 interface FieldsetProps {
