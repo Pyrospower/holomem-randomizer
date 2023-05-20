@@ -1,3 +1,4 @@
+import { env } from "env.mjs";
 import type { Channel, Generation } from "types";
 
 // Fetches all hololive members from Holodex API
@@ -5,8 +6,14 @@ import type { Channel, Generation } from "types";
 export async function getAllMembers() {
   try {
     const res = await fetch(
-      "https://holodex.net/api/v2/channels?org=Hololive&limit=100&sort=group"
+      "https://holodex.net/api/v2/channels?org=Hololive&limit=100&sort=group",
+      {
+        headers: {
+          "X-APIKEY": env.API_KEY,
+        },
+      }
     );
+
     const channels: Channel[] = await res.json();
 
     return channels;
