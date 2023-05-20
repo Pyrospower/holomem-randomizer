@@ -20,7 +20,7 @@ export default function GenFieldset({
       {/* One checkbox for each holomem */}
       {generation.map((streamer, index) => (
         <Checkbox
-          english_name={streamer.english_name ?? streamer.name}
+          name={streamer.english_name ?? streamer.name}
           handleChange={handleChange}
           key={index}
         />
