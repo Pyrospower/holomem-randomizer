@@ -4,11 +4,8 @@ import { useRef, useState } from "react";
 import type { Channel, Generation } from "types";
 import { GenFieldset } from "@/components/molecules";
 import { Button } from "@/components/atoms";
-import {
-  getAllMembers,
-  groupByGeneration,
-  removeUnwantedChannels,
-} from "@/utils/holodex";
+import { getAllMembers } from "utils/holodex";
+import { groupByGeneration, removeUnwantedChannels } from "utils/sorting";
 
 export default function Home({ data }: { data: Channel[] }) {
   const [randomizer, setRandomizer] = useState(0);
