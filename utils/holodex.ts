@@ -11,6 +11,8 @@ class ResponseError extends Error {
   }
 }
 
+const twoMonths = Math.ceil(30.417 * 2 * 24 * 60 * 60 * 1);
+
 // Fetches all hololive members from Holodex API
 // TODO: Respect the API's limit
 export async function getAllMembers() {
@@ -21,6 +23,7 @@ export async function getAllMembers() {
         headers: {
           "X-APIKEY": env.API_KEY,
         },
+        next: { revalidate: twoMonths },
       }
     );
 
