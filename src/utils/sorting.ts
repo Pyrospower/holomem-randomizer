@@ -1,4 +1,4 @@
-import type { Channel, Generation } from "types";
+import type { Channel, Generation } from "src/types";
 
 // Removes official channels and sub channels
 export function removeUnwantedChannels(channels: Channel[]) {
@@ -7,7 +7,7 @@ export function removeUnwantedChannels(channels: Channel[]) {
       channel.english_name &&
       channel.group !== "Official" &&
       !channel.english_name.match(/Sub[^a]/g) &&
-      !channel.english_name.includes("Midnight Grand Orchestra")
+      !channel.english_name.includes("Midnight Grand Orchestra"),
   );
 }
 
