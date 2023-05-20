@@ -24,7 +24,7 @@ export async function getAllMembers() {
           "X-APIKEY": env.API_KEY,
         },
         next: { revalidate: twoMonths },
-      }
+      },
     );
 
     if (!res.ok) throw new ResponseError("Failed to fetch members", res);

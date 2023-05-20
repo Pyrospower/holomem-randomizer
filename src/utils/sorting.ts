@@ -7,7 +7,7 @@ export function removeUnwantedChannels(channels: Channel[]) {
       channel.english_name &&
       channel.group !== "Official" &&
       !channel.english_name.match(/Sub[^a]/g) &&
-      !channel.english_name.includes("Midnight Grand Orchestra")
+      !channel.english_name.includes("Midnight Grand Orchestra"),
   );
 }
 

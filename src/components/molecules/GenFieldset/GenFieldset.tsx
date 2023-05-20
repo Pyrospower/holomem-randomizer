@@ -14,7 +14,7 @@ export default function GenFieldset({
 }: FieldsetProps) {
   return (
     <fieldset className="flex flex-wrap">
-      <legend className="bg-sky-800 text-white font-semibold py-1 px-1.5">
+      <legend className="bg-sky-800 px-1.5 py-1 font-semibold text-white">
         {children}
       </legend>
       {/* One checkbox for each holomem */}

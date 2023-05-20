@@ -55,7 +55,7 @@ export default function Form({ data: members }: FormProps) {
       className="flex flex-col gap-y-4"
     >
       {/* Checkbox list */}
-      <ul className="flex flex-wrap justify-center flex-col gap-y-2">
+      <ul className="flex flex-col flex-wrap justify-center gap-y-2">
         {groups.map((group) => (
           <GenFieldset
             key={group.name}
