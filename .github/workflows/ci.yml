@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 
 env:
-  APIKEY: ${{ secrets.APIKEY }}
+  API_KEY: ${{ secrets.API_KEY }}
 
 jobs:
   build:
