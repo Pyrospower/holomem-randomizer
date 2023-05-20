@@ -11,7 +11,6 @@ export default function Button({ children, visible }: ButtonProps) {
         visible ? "opacity-100 visible" : "opacity-0 invisible"
       }`}
       name="submit"
-      onClick={() => console.log("Submit button clicked")}
     >
       {children}
     </button>
