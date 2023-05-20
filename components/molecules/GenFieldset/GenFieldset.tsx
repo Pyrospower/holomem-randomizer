@@ -1,5 +1,5 @@
 import { Channel } from "types";
-import { Checkbox } from "../../atoms";
+import { Checkbox } from "@/components/atoms";
 
 interface FieldsetProps {
   children: React.ReactNode;
