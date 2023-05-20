@@ -5,6 +5,7 @@ export const env = createEnv({
   server: {
     API_KEY: z.string().min(1),
   },
+  client: {},
   runtimeEnv: {
     API_KEY: process.env.API_KEY,
   },
