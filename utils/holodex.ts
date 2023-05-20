@@ -1,5 +1,5 @@
 import { env } from "env.mjs";
-import type { Channel } from "types";
+import { ChannelSchema } from "types";
 
 // Error class for when the response is not ok
 class ResponseError extends Error {
@@ -26,9 +26,14 @@ export async function getAllMembers() {
 
     if (!res.ok) throw new ResponseError("Failed to fetch members", res);
 
-    const channels: Channel[] = await res.json();
+    const channels: unknown = await res.json();
 
-    return channels;
+    const validatedChannels = ChannelSchema.array().safeParse(channels);
+
+    if (!validatedChannels.success)
+      throw new ResponseError("API response is invalid", res);
+
+    return validatedChannels.data;
   } catch (err) {
     if (err instanceof ResponseError) {
       if (err.response.status === 403) {
