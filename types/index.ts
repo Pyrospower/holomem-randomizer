@@ -1,4 +1,2 @@
-import type Channel from "./Channel";
-import type Generation from "./Generation";
-
-export { Channel, Generation };
+export { type Channel, ChannelSchema } from "./Channel";
+export { type Generation, GenerationSchema } from "./Generation";

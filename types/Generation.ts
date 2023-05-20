@@ -1,6 +1,9 @@
-import type { Channel } from "types";
+import { z } from "zod";
+import { ChannelSchema } from "./Channel";
 
-export default interface Generation {
-  name: string;
-  members: Channel[];
-}
+export const GenerationSchema = z.object({
+  name: z.string(),
+  members: z.array(ChannelSchema),
+});
+
+export type Generation = z.infer<typeof GenerationSchema>;
