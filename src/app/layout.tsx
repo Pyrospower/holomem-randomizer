@@ -1,5 +1,12 @@
 import "../styles/globals.css";
+import { Inter } from "next/font/google";
 import type { Metadata, Viewport } from "next";
+import { cn } from "@/lib/utils";
+
+export const fontSans = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://holomem-randomizer.vercel.app"),
@@ -28,7 +35,15 @@ export default function RootLayout({
 }) {
   return (
     <html className="scroll-smooth" lang="en">
-      <body className="bg-slate-800 text-white">{children}</body>
+      {/* TODO: Theme toggle */}
+      <body
+        className={cn(
+          "bg-slate-800 font-sans text-white antialiased",
+          fontSans.variable,
+        )}
+      >
+        {children}
+      </body>
     </html>
   );
 }
