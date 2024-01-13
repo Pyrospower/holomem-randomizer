@@ -38,7 +38,7 @@ export default function RootLayout({
       {/* TODO: Theme toggle */}
       <body
         className={cn(
-          "bg-slate-800 font-sans text-white antialiased",
+          "bg-background font-sans antialiased",
           fontSans.variable,
         )}
       >
