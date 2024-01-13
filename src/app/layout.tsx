@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import { cn } from "@/lib/utils";
 
-export const fontSans = Inter({
+const fontSans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
 });
