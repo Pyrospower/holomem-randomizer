@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://holomem-randomizer.vercel.app"),
   title: "holomem randomizer",
   description: "Randomly select a hololive member",
   icons: {
