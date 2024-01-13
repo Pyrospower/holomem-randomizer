@@ -1,9 +1,8 @@
 "use client";
 import { useRef, useState } from "react";
-import { GenFieldset } from "@/components/molecules";
-import { Button } from "@/components/atoms";
 import { Channel, Generation } from "src/types";
 import { groupByGeneration } from "src/utils/sorting";
+import GenFieldset from "@/components/GenFieldset";
 
 // might need to use randomizer and handleSubmit as props
 interface FormProps {
@@ -72,5 +71,24 @@ export default function Form({ data: members }: FormProps) {
         <Button visible={randomizer > 1 ? true : false}>Choose</Button>
       </div>
     </form>
+  );
+}
+
+interface ButtonProps {
+  children: React.ReactNode;
+  visible: boolean;
+}
+
+export function Button({ children, visible }: ButtonProps) {
+  return (
+    <button
+      type="submit"
+      className={`cursor-pointer rounded-3xl bg-blue-800 px-6 py-2.5 text-base font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 ${
+        visible ? "visible opacity-100" : "invisible opacity-0"
+      }`}
+      name="submit"
+    >
+      {children}
+    </button>
   );
 }

@@ -1,9 +1,39 @@
+import type { Channel } from "src/types";
+
+interface FieldsetProps {
+  children: React.ReactNode;
+  generation: Channel[];
+  handleChange: (ev: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export default function GenFieldset({
+  children,
+  generation,
+  handleChange,
+}: FieldsetProps) {
+  return (
+    <fieldset className="flex flex-wrap">
+      <legend className="bg-sky-800 px-1.5 py-1 font-semibold text-white">
+        {children}
+      </legend>
+      {/* One checkbox for each holomem */}
+      {generation.map((streamer) => (
+        <Checkbox
+          name={streamer.english_name ?? streamer.name}
+          handleChange={handleChange}
+          key={streamer.id}
+        />
+      ))}
+    </fieldset>
+  );
+}
+
 interface CheckboxProps {
   name: string;
   handleChange: (ev: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function Checkbox({ name, handleChange }: CheckboxProps) {
+export function Checkbox({ name, handleChange }: CheckboxProps) {
   /*
     when a checkbox is checked:
       set some value to true maybe idk

@@ -1,6 +1,6 @@
-import { Form } from "@/components/organisms";
 import { getAllMembers } from "@/utils/holodex";
 import { removeUnwantedChannels } from "@/utils/sorting";
+import Form from "@/components/Form";
 
 async function getMembers() {
   const data = await getAllMembers();
