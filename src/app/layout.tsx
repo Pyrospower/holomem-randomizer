@@ -1,11 +1,11 @@
 import "../styles/globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   title: "holomem randomizer",
   description: "Randomly select a hololive member",
   icons: {
-    icon: "https://favmoji.asheeshh.ga/🎲",
+    icon: "https://fmj.asrvd.me/🎲",
   },
   keywords: ["hololive", "random", "member", "picker", "vtuber"],
   openGraph: {
@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
   },
+};
+
+export const viewport: Viewport = {
   themeColor: "#1498C7",
 };
 
