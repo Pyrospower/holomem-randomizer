@@ -1,117 +1,112 @@
 "use client";
-import { useRef, useState } from "react";
-import { Channel, Generation } from "src/types";
-import { groupByGeneration } from "src/utils/sorting";
+import { Channel, Generation } from "@/types";
+import { groupByGeneration } from "@/utils/sorting";
 import { Button } from "@/components/ui/button";
 import { Dices } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Checkbox } from "./ui/checkbox";
-import { Label } from "./ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 
-// might need to use randomizer and handleSubmit as props
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+
 interface FormProps {
   data: Channel[];
 }
 
-export default function MembersForm({ data: members }: FormProps) {
-  const [randomizer, setRandomizer] = useState(0);
-  const formRef = useRef(null);
+const FormSchema = z.object({
+  members: z.array(z.string()).min(2, "Please select at least two members"),
+});
 
+export default function MembersForm({ data: members }: FormProps) {
   // Groups channels by generation
   let groups: Generation[] = groupByGeneration(members, []);
 
-  // Handles checkbox change on click
-  const handleChange = (isChecked: boolean) => {
-    cbVerification(isChecked);
-  };
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      members: [],
+    },
+  });
 
-  // Handles form submit
-  const handleSubmit = (ev: React.FormEvent) => {
-    ev.preventDefault();
-
-    if (!formRef.current) return;
-
-    const formData = new FormData(formRef.current);
-
-    formData.forEach((_value, key) => {
-      console.log(key);
-    });
-  };
-
-  const cbVerification = (cbIsChecked: boolean) => {
-    // If box is checked, add 1
-    if (cbIsChecked) {
-      setRandomizer(randomizer + 1);
-    }
-    // If box is unchecked, remove 1
-    if (!cbIsChecked && randomizer > 0) {
-      setRandomizer(randomizer - 1);
-    }
-  };
+  function onSubmit(values: z.infer<typeof FormSchema>) {
+    console.dir(values);
+  }
 
   return (
-    <form
-      ref={formRef}
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-y-4"
-    >
-      {/* Checkbox list */}
-      <ul className="flex flex-col flex-wrap justify-center gap-y-4">
-        {groups.map((group) => (
-          <GenFieldset
-            key={group.name}
-            generation={group.members}
-            handleChange={handleChange}
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-y-4"
+      >
+        <FormField
+          control={form.control}
+          name="members"
+          render={() => (
+            <FormItem className={cn("space-y-4")}>
+              {groups.map((group) => (
+                <fieldset key={group.name} className="flex flex-wrap">
+                  <legend className="mb-2 bg-sky-800 px-1.5 py-1 font-semibold text-white">
+                    {group.name}
+                  </legend>
+                  {group.members.map((streamer) => (
+                    <FormField
+                      key={streamer.id}
+                      control={form.control}
+                      name="members"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={streamer.id}
+                            className={cn(
+                              "mr-5 flex items-center space-x-2 space-y-0 last:mr-0",
+                            )}
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(streamer.id)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([
+                                        ...field.value,
+                                        streamer.id,
+                                      ])
+                                    : field.onChange(
+                                        field.value.filter(
+                                          (id) => id !== streamer.id,
+                                        ),
+                                      );
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel>{streamer.english_name}</FormLabel>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                </fieldset>
+              ))}
+            </FormItem>
+          )}
+        />
+
+        <div className="flex justify-center">
+          <Button
+            className={cn("transition-opacity")}
+            disabled={!form.formState.isValid}
           >
-            {group.name}
-          </GenFieldset>
-        ))}
-      </ul>
-
-      {/* Choose button */}
-      <div className="flex justify-center">
-        <Button
-          disabled={randomizer < 2 ? true : false}
-          className={cn("transition-opacity")}
-        >
-          <Dices className="mr-2 h-4 w-4" /> Choose a member!
-        </Button>
-      </div>
-    </form>
-  );
-}
-
-const formatName = (name: string) => name.toLowerCase().split(" ").join("_");
-
-interface FieldsetProps {
-  children: React.ReactNode;
-  generation: Channel[];
-  handleChange: (isChecked: boolean) => void;
-}
-
-function GenFieldset({
-  children,
-  generation,
-  handleChange,
-}: FieldsetProps) {
-  return (
-    <fieldset className="flex flex-wrap">
-      <legend className="bg-sky-800 px-1.5 py-1 mb-2 font-semibold text-white">
-        {children}
-      </legend>
-      {generation.map((streamer) => (
-        <li key={streamer.id} className="mr-5 last:mr-0">
-          <div className="flex items-center space-x-2">
-            <Checkbox 
-              id={formatName(streamer.english_name ?? streamer.name)}
-              name={formatName(streamer.english_name ?? streamer.name)}
-              defaultChecked={false}
-              onCheckedChange={handleChange}
-              />
-            <Label htmlFor={formatName(streamer.english_name ?? streamer.name)}>{streamer.english_name}</Label>
-          </div>
-        </li>
-      ))}
-    </fieldset>
+            <Dices className="mr-2 h-4 w-4" /> Choose a member!
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }
