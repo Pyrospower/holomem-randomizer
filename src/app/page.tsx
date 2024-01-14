@@ -1,6 +1,6 @@
 import { getAllMembers } from "@/utils/holodex";
 import { removeUnwantedChannels } from "@/utils/sorting";
-import Form from "@/components/Form";
+import Form from "@/components/members-form";
 
 async function getMembers() {
   const data = await getAllMembers();
