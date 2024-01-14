@@ -13,7 +13,7 @@ interface FormProps {
   data: Channel[];
 }
 
-export default function Form({ data: members }: FormProps) {
+export default function MembersForm({ data: members }: FormProps) {
   const [randomizer, setRandomizer] = useState(0);
   const formRef = useRef(null);
 
