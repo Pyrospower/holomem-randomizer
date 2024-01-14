@@ -13,7 +13,7 @@ export default async function Page() {
   return (
     <div className="px-4 md:px-8">
       <main className="flex flex-col items-center justify-center py-6">
-        <h1 className="mb-6 text-4xl md:text-6xl">Randomizer</h1>
+        <h1 className="scroll-m-20 text-4xl font-medium tracking-tight lg:text-5xl mb-6">Randomizer</h1>
         <Form data={channels} />
       </main>
     </div>
