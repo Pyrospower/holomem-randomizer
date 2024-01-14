@@ -3,6 +3,9 @@ import { useRef, useState } from "react";
 import { Channel, Generation } from "src/types";
 import { groupByGeneration } from "src/utils/sorting";
 import GenFieldset from "@/components/GenFieldset";
+import { Button } from "@/components/ui/button";
+import { Dices } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // might need to use randomizer and handleSubmit as props
 interface FormProps {
@@ -17,9 +20,7 @@ export default function Form({ data: members }: FormProps) {
   let groups: Generation[] = groupByGeneration(members, []);
 
   // Handles checkbox change on click
-  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = ev.target.checked;
-
+  const handleChange = (isChecked: boolean) => {
     cbVerification(isChecked);
   };
 
@@ -54,7 +55,7 @@ export default function Form({ data: members }: FormProps) {
       className="flex flex-col gap-y-4"
     >
       {/* Checkbox list */}
-      <ul className="flex flex-col flex-wrap justify-center gap-y-2">
+      <ul className="flex flex-col flex-wrap justify-center gap-y-4">
         {groups.map((group) => (
           <GenFieldset
             key={group.name}
@@ -67,28 +68,14 @@ export default function Form({ data: members }: FormProps) {
       </ul>
 
       {/* Choose button */}
-      <div className="flex justify-center">
-        <Button visible={randomizer > 1 ? true : false}>Choose</Button>
+      <div className="flex justify-center h-12">
+        <Button
+          disabled={randomizer < 2 ? true : false}
+          className={cn("transition-opacity")}
+        >
+          <Dices className="mr-2 h-4 w-4" /> Choose a member!
+        </Button>
       </div>
     </form>
-  );
-}
-
-interface ButtonProps {
-  children: React.ReactNode;
-  visible: boolean;
-}
-
-export function Button({ children, visible }: ButtonProps) {
-  return (
-    <button
-      type="submit"
-      className={`cursor-pointer rounded-3xl bg-blue-800 px-6 py-2.5 text-base font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 ${
-        visible ? "visible opacity-100" : "invisible opacity-0"
-      }`}
-      name="submit"
-    >
-      {children}
-    </button>
   );
 }

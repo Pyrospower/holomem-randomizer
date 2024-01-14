@@ -1,10 +1,14 @@
 import type { Channel } from "src/types";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 interface FieldsetProps {
   children: React.ReactNode;
   generation: Channel[];
-  handleChange: (ev: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (isChecked: boolean) => void;
 }
+
+const formatName = (name: string) => name.toLowerCase().split(" ").join("_");
 
 export default function GenFieldset({
   children,
@@ -13,49 +17,22 @@ export default function GenFieldset({
 }: FieldsetProps) {
   return (
     <fieldset className="flex flex-wrap">
-      <legend className="bg-sky-800 px-1.5 py-1 font-semibold text-white">
+      <legend className="bg-sky-800 px-1.5 py-1 mb-2 font-semibold text-white">
         {children}
       </legend>
-      {/* One checkbox for each holomem */}
       {generation.map((streamer) => (
-        <Checkbox
-          name={streamer.english_name ?? streamer.name}
-          handleChange={handleChange}
-          key={streamer.id}
-        />
+        <li key={streamer.id} className="mr-5 last:mr-0">
+          <div className="flex items-center space-x-2">
+            <Checkbox 
+              id={formatName(streamer.english_name ?? streamer.name)}
+              name={formatName(streamer.english_name ?? streamer.name)}
+              defaultChecked={false}
+              onCheckedChange={handleChange}
+              />
+            <Label htmlFor={formatName(streamer.english_name ?? streamer.name)}>{streamer.english_name}</Label>
+          </div>
+        </li>
       ))}
     </fieldset>
-  );
-}
-
-interface CheckboxProps {
-  name: string;
-  handleChange: (ev: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-export function Checkbox({ name, handleChange }: CheckboxProps) {
-  /*
-    when a checkbox is checked:
-      set some value to true maybe idk
-      maybe send the english name in an array with the full list (not sure but it could be in a context)
-    
-    when a checkbox is unchecked:
-      set the value to false maybe idk
-      remove the english name from the array with the full list
-  */
-  const formattedName = name.toLowerCase().split(" ").join("_");
-
-  return (
-    <li className="mr-5 last:mr-0">
-      <input
-        type="checkbox"
-        className="mr-2"
-        id={formattedName}
-        name={formattedName}
-        defaultChecked={false}
-        onChange={(ev) => handleChange(ev)}
-      />
-      <label htmlFor={formattedName}>{name}</label>
-    </li>
   );
 }
