@@ -155,10 +155,12 @@ function ResultDialog({ children, member }: ResultDialogProps) {
         </DialogHeader>
         <div className="grid place-items-center gap-4 py-4">
           <Image
-            src={member?.photo || "/official_channel_picture.jpg"}
-            width={300}
-            height={300}
+            src={member?.photo || "/official_channel_picture.webp"}
+            width={250}
+            height={250}
             alt={member?.english_name || "hololive member"}
+            placeholder="blur"
+            blurDataURL="/official_channel_picture.webp"
           />
           <h3 className="text-xl font-semibold">{member?.english_name}</h3>
         </div>
