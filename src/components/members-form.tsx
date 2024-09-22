@@ -1,5 +1,5 @@
 "use client";
-import { Channel, ChannelSchema, Generation } from "@/types";
+import { Channel, ChannelSchema, Generation } from "@/models";
 import { groupByGeneration } from "@/utils/sorting";
 import { Button } from "@/components/ui/button";
 import { Dices } from "lucide-react";

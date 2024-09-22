@@ -1,4 +1,4 @@
-import type { Channel, Generation } from "@/types";
+import { Channel, Generation } from "@/models";
 
 // Removes official channels and sub channels
 export function removeUnwantedChannels(channels: Channel[]) {

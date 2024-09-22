@@ -1,5 +1,5 @@
 import { env } from "@/env";
-import { ChannelSchema } from "@/types";
+import { ChannelSchema } from "@/models";
 
 /** Error class for when the response is not ok */
 class ResponseError extends Error {
