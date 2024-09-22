@@ -25,6 +25,16 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+
 import Image from "next/image";
 import { useState } from "react";
 
@@ -36,7 +46,7 @@ const FormSchema = z.object({
   members: z.array(z.string()).min(2, "Please select at least two members"),
 });
 
-export default function MembersForm({ data: members }: FormProps) {
+export function MembersForm({ data: members }: FormProps) {
   let groups: Generation[] = groupByGeneration(members, []);
 
   const [randomMember, setRandomMember] = useState<Channel | null>(null);
@@ -67,76 +77,77 @@ export default function MembersForm({ data: members }: FormProps) {
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-y-4"
-      >
-        <FormField
-          control={form.control}
-          name="members"
-          render={() => (
-            <FormItem className={cn("space-y-4")}>
-              {groups.map((group) => (
-                <fieldset key={group.name} className="flex flex-wrap">
-                  <legend className="mb-2 bg-sky-800 px-1.5 py-1 font-semibold text-white">
-                    {group.name}
-                  </legend>
-                  {group.members.map((streamer) => (
-                    <FormField
-                      key={streamer.id}
-                      control={form.control}
-                      name="members"
-                      render={({ field }) => {
-                        return (
-                          <FormItem
-                            key={streamer.id}
-                            className={cn(
-                              "mr-5 flex items-center space-x-2 space-y-0 last:mr-0",
-                            )}
-                          >
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value?.includes(streamer.id)}
-                                onCheckedChange={(checked) => {
-                                  return checked
-                                    ? field.onChange([
-                                        ...field.value,
-                                        streamer.id,
-                                      ])
-                                    : field.onChange(
-                                        field.value.filter(
-                                          (id) => id !== streamer.id,
-                                        ),
-                                      );
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel>{streamer.english_name}</FormLabel>
-                          </FormItem>
-                        );
-                      }}
-                    />
+    <div>
+      {/* <OptionsBar /> */}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <ScrollArea className="h-[60vh] rounded-md border border-gray-200 p-4">
+            <FormField
+              control={form.control}
+              name="members"
+              render={() => (
+                <FormItem className={cn("space-y-4")}>
+                  {groups.map((group) => (
+                    <fieldset key={group.name} className="flex flex-wrap gap-4">
+                      <legend className="mb-2 bg-sky-800 px-1.5 py-1 font-semibold text-white">
+                        {group.name}
+                      </legend>
+                      {group.members.map((streamer) => (
+                        <FormField
+                          key={streamer.id}
+                          control={form.control}
+                          name="members"
+                          render={({ field }) => {
+                            return (
+                              <FormItem
+                                key={streamer.id}
+                                className={cn(
+                                  "mr-5 flex items-center space-x-2 space-y-0 last:mr-0",
+                                )}
+                              >
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(streamer.id)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([
+                                            ...field.value,
+                                            streamer.id,
+                                          ])
+                                        : field.onChange(
+                                            field.value.filter(
+                                              (id) => id !== streamer.id,
+                                            ),
+                                          );
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel>{streamer.english_name}</FormLabel>
+                              </FormItem>
+                            );
+                          }}
+                        />
+                      ))}
+                    </fieldset>
                   ))}
-                </fieldset>
-              ))}
-            </FormItem>
-          )}
-        />
-
-        <div className="flex justify-center">
-          <ResultDialog member={randomMember}>
-            <Button
-              className={cn("transition-opacity")}
-              disabled={!form.formState.isValid}
-              type="submit"
-            >
-              <Dices className="mr-2 h-4 w-4" /> Choose a member!
-            </Button>
-          </ResultDialog>
-        </div>
-      </form>
-    </Form>
+                </FormItem>
+              )}
+            />
+          </ScrollArea>
+          <div className="flex justify-center">
+            <ResultDialog member={randomMember}>
+              <Button
+                className={cn("transition-opacity")}
+                disabled={!form.formState.isValid}
+                type="submit"
+              >
+                <Dices className="mr-2 h-4 w-4" /> Choose a member!
+              </Button>
+            </ResultDialog>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 }
 
@@ -173,5 +184,62 @@ function ResultDialog({ children, member }: ResultDialogProps) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function OptionsBar() {
+  const [selectedGroup, setSelectedGroup] = useState("all");
+  const [selectedLanguage, setSelectedLanguage] = useState("all");
+  const [showGraduated, setShowGraduated] = useState(false);
+  return (
+    <div className="mb-6 flex flex-wrap items-center gap-4">
+      <Select onValueChange={(value: string) => setSelectedGroup(value)}>
+        <SelectTrigger className="w-[180px] border-gray-300 bg-white text-gray-800">
+          <SelectValue placeholder="Select group" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All Groups</SelectItem>
+          <SelectItem value="hololive">hololive</SelectItem>
+          <SelectItem value="holostars">holostars</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select onValueChange={(value: string) => setSelectedLanguage(value)}>
+        <SelectTrigger className="w-[180px] border-gray-300 bg-white text-gray-800">
+          <SelectValue placeholder="Select language" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All languages</SelectItem>
+          <SelectItem value="jp">Japanese</SelectItem>
+          <SelectItem value="en">English</SelectItem>
+          <SelectItem value="id">Indonesian</SelectItem>
+        </SelectContent>
+      </Select>
+      <div className="flex items-center space-x-2">
+        <Checkbox
+          id="select-all"
+          checked={true}
+          onCheckedChange={(checked) => console.log("handleSelectAll", checked)}
+        />
+        <label
+          htmlFor="select-all"
+          className="text-sm font-medium leading-none"
+        >
+          Select All / Unselect All
+        </label>
+      </div>
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="show-graduated"
+          checked={showGraduated}
+          onCheckedChange={setShowGraduated}
+        />
+        <label
+          htmlFor="show-graduated"
+          className="text-sm font-medium leading-none"
+        >
+          Show Graduated Members
+        </label>
+      </div>
+    </div>
   );
 }
