@@ -1,4 +1,4 @@
-import type { Channel, Generation } from "src/types";
+import type { Channel, Generation } from "@/types";
 
 // Removes official channels and sub channels
 export function removeUnwantedChannels(channels: Channel[]) {
@@ -13,9 +13,7 @@ export function removeUnwantedChannels(channels: Channel[]) {
 
 // Groups channels by generation
 export function groupByGeneration(channels: Channel[], groups: Generation[]) {
-  for (let i = 0; i < channels.length; i++) {
-    const holomem = channels[i];
-
+  for (const holomem of channels) {
     // Find the generation in the groups array
     const generation = groups.find((group) => group.name === holomem.group);
 
