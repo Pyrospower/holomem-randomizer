@@ -1,5 +1,5 @@
 import { env } from "@/env";
-import { ChannelSchema } from "@/models";
+import { Channel, ChannelSchema } from "@/models";
 
 /** Error class for when the response is not ok */
 class ResponseError extends Error {
@@ -18,36 +18,46 @@ class ResponseError extends Error {
  */
 const REVALIDATION_TIME_SECONDS = Math.ceil(30.417 * 2 * 24 * 60 * 60);
 
-// TODO: Respect the API's limit
 export async function getAllMembers() {
-  try {
-    const res = await fetch(
-      "https://holodex.net/api/v2/channels?org=Hololive&limit=100&sort=group",
-      {
-        headers: {
-          "X-APIKEY": env.API_KEY,
+  let members: Channel[] = [];
+  let offset = 0;
+  const limit = 100;
+  let hasMore = true;
+
+  while (hasMore) {
+    try {
+      const res = await fetch(
+        `https://holodex.net/api/v2/channels?org=Hololive&limit=${limit}&offset=${offset}&sort=group`,
+        {
+          headers: {
+            "X-APIKEY": env.API_KEY,
+          },
+          next: { revalidate: REVALIDATION_TIME_SECONDS },
         },
-        next: { revalidate: REVALIDATION_TIME_SECONDS },
-      },
-    );
+      );
 
-    if (!res.ok) throw new ResponseError("Failed to fetch members", res);
+      if (!res.ok) throw new ResponseError("Failed to fetch members", res);
 
-    const channels: unknown = await res.json();
+      const channels: unknown = await res.json();
 
-    const validatedChannels = ChannelSchema.array().safeParse(channels);
+      const validatedChannels = ChannelSchema.array().safeParse(channels);
 
-    if (!validatedChannels.success)
-      throw new ResponseError("API response is invalid", res);
+      if (!validatedChannels.success)
+        throw new ResponseError("API response is invalid", res);
 
-    return validatedChannels.data;
-  } catch (err) {
-    if (err instanceof ResponseError) {
-      if (err.response.status === 403) {
-        console.error("API key is invalid");
+      members = members.concat(validatedChannels.data);
+
+      hasMore = validatedChannels.data.length === limit;
+      offset += limit;
+    } catch (err) {
+      if (err instanceof ResponseError) {
+        if (err.response.status === 403) {
+          console.error("API key is invalid");
+        }
       }
+      return members;
     }
-
-    return [];
   }
+
+  return members;
 }
