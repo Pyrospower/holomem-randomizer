@@ -1,7 +1,7 @@
-import { env } from "@/env.mjs";
-import { ChannelSchema } from "src/types";
+import { env } from "@/env";
+import { ChannelSchema } from "@/types";
 
-// Error class for when the response is not ok
+/** Error class for when the response is not ok */
 class ResponseError extends Error {
   response: Response;
 

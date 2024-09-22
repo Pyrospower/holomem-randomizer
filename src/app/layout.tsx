@@ -37,10 +37,7 @@ export default function RootLayout({
     <html className="scroll-smooth" lang="en">
       {/* TODO: Theme toggle */}
       <body
-        className={cn(
-          "bg-background font-sans antialiased",
-          fontSans.variable,
-        )}
+        className={cn("bg-background font-sans antialiased", fontSans.variable)}
       >
         {children}
       </body>

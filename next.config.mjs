@@ -1,14 +1,13 @@
-// @ts-check
+import { fileURLToPath } from "url";
+import createJiti from "jiti";
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
  */
-import("./src/env.mjs");
+createJiti(fileURLToPath(import.meta.url));
 
-/**
- * @type {import('next').NextConfig}
- **/
+/** @type {import('next').NextConfig} */
 const config = {
   images: {
     remotePatterns: [
@@ -20,6 +19,10 @@ const config = {
     ],
   },
   reactStrictMode: true,
+
+  /** We already do linting and typechecking as separate tasks in CI */
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
 };
 
 export default config;

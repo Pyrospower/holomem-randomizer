@@ -9,4 +9,6 @@ export const env = createEnv({
   runtimeEnv: {
     API_KEY: process.env.API_KEY,
   },
+  skipValidation:
+    !!process.env.CI || process.env.npm_lifecycle_event === "lint",
 });
