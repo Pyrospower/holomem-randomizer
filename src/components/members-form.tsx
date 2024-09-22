@@ -77,11 +77,11 @@ export function MembersForm({ data: members }: FormProps) {
   }
 
   return (
-    <div className="w-full max-w-5xl">
+    <div>
       {/* <OptionsBar /> */}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <ScrollArea className="h-[60vh] rounded-md border border-gray-200 bg-gray-50 p-4">
+          <ScrollArea className="h-[60vh] rounded-md border border-gray-200 p-4">
             <FormField
               control={form.control}
               name="members"
