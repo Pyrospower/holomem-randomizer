@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "clean": "git clean -xdf .next node_modules",
     "dev": "next dev",
+    "dev:turbo": "next dev --turbo",
     "format": "prettier --write --plugin-search-dir=. **/*.{cjs,mjs,ts,tsx,md,json} --ignore-path ./.gitignore --ignore-unknown --no-error-on-unmatched-pattern",
     "format:check": "prettier --check --plugin-search-dir=. **/*.{cjs,mjs,ts,tsx,md,json} --ignore-path ./.gitignore --ignore-unknown --no-error-on-unmatched-pattern",
     "lint": "next lint",
@@ -39,5 +41,6 @@
     "prettier": "^3.2.4",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.1"
-  }
+  },
+  "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c"
 }
