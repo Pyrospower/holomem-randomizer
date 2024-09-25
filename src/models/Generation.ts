@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { ChannelSchema } from "./Channel";
 
 export const GenerationSchema = z.object({

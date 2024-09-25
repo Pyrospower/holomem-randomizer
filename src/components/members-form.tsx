@@ -1,9 +1,13 @@
 "use client";
-import { Channel, ChannelSchema, Generation } from "@/models";
-import { groupByGeneration } from "@/utils/sorting";
-import { Button } from "@/components/ui/button";
+
+import { useState } from "react";
+import Image from "next/image";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Dices } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
@@ -14,10 +18,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -34,9 +34,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-
-import Image from "next/image";
-import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Channel, ChannelSchema, Generation } from "@/models";
+import { groupByGeneration } from "@/utils/sorting";
 
 interface FormProps {
   data: Channel[];
