@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "holomem randomizer",
   description: "Randomly select a hololive member",
   icons: {
-    icon: "https://fmj.asrvd.me/🎲",
+    icon: "/randomizer.svg",
   },
   keywords: ["hololive", "random", "member", "picker", "vtuber"],
   openGraph: {
