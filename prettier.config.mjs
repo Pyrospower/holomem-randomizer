@@ -12,7 +12,7 @@ const config = {
   singleQuote: false,
   tabWidth: 2,
   trailingComma: "all",
-  tailwindConfig: "./tailwind.config.ts",
+  tailwindFunctions: ["cn", "cva"],
   importOrder: [
     "^(react/(.*)$)|^(react$)|^(react-native(.*)$)",
     "^(next/(.*)$)|^(next$)",
@@ -23,7 +23,7 @@ const config = {
     "^[./]",
   ],
   importOrderParserPlugins: ["typescript", "jsx", "decorators-legacy"],
-  importOrderTypeScriptVersion: "4.4.0",
+  importOrderTypeScriptVersion: "5.0.0",
 };
 
 export default config;
