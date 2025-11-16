@@ -47,6 +47,8 @@ const FormSchema = z.object({
   members: z.array(z.string()).min(2, "Please select at least two members"),
 });
 
+const getRandomNumber = () => Math.random();
+
 export function MembersForm({ data: members }: FormProps) {
   let groups: Generation[] = groupByGeneration(members, []);
 
@@ -61,7 +63,7 @@ export function MembersForm({ data: members }: FormProps) {
 
   function onSubmit(values: z.infer<typeof FormSchema>) {
     const randomMemberId =
-      values.members[Math.floor(Math.random() * values.members.length)];
+      values.members[Math.floor(getRandomNumber() * values.members.length)];
 
     const selectedMember = members.find(
       (member) => member.id === randomMemberId,
