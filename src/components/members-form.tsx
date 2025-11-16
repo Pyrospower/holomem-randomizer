@@ -13,6 +13,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -102,7 +103,7 @@ export function MembersForm({ data: members }: FormProps) {
                               <FormItem
                                 key={streamer.id}
                                 className={cn(
-                                  "mr-5 flex items-center space-x-2 space-y-0 last:mr-0",
+                                  "mr-5 flex items-center space-y-0 space-x-2 last:mr-0",
                                 )}
                               >
                                 <FormControl>
@@ -163,6 +164,7 @@ function ResultDialog({ children, member }: ResultDialogProps) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Randomly selected member</DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
         <div className="grid place-items-center gap-4 py-4">
           <Image
@@ -222,7 +224,7 @@ function OptionsBar() {
         />
         <label
           htmlFor="select-all"
-          className="text-sm font-medium leading-none"
+          className="text-sm leading-none font-medium"
         >
           Select All / Unselect All
         </label>
@@ -235,7 +237,7 @@ function OptionsBar() {
         />
         <label
           htmlFor="show-graduated"
-          className="text-sm font-medium leading-none"
+          className="text-sm leading-none font-medium"
         >
           Show Graduated Members
         </label>
