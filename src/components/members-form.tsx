@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dices } from "lucide-react";
@@ -47,8 +47,6 @@ const FormSchema = z.object({
   members: z.array(z.string()).min(2, "Please select at least two members"),
 });
 
-const getRandomNumber = () => Math.random();
-
 export function MembersForm({ data: members }: FormProps) {
   let groups: Generation[] = groupByGeneration(members, []);
 
@@ -61,23 +59,26 @@ export function MembersForm({ data: members }: FormProps) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof FormSchema>) {
-    const randomMemberId =
-      values.members[Math.floor(getRandomNumber() * values.members.length)];
+  const onSubmit = useCallback(
+    (values: z.infer<typeof FormSchema>) => {
+      const randomIndex = Math.floor(Math.random() * values.members.length);
+      const randomMemberId = values.members[randomIndex];
 
-    const selectedMember = members.find(
-      (member) => member.id === randomMemberId,
-    );
+      const selectedMember = members.find(
+        (member) => member.id === randomMemberId,
+      );
 
-    const parsedMember = ChannelSchema.safeParse(selectedMember);
+      const parsedMember = ChannelSchema.safeParse(selectedMember);
 
-    if (!parsedMember.success) {
-      console.error(parsedMember.error);
-      return;
-    }
+      if (!parsedMember.success) {
+        console.error(parsedMember.error);
+        return;
+      }
 
-    setRandomMember(parsedMember.data);
-  }
+      setRandomMember(parsedMember.data);
+    },
+    [members],
+  );
 
   return (
     <div>
