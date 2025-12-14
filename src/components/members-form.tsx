@@ -141,7 +141,7 @@ export function MembersForm({ data: members }: FormProps) {
           <div className="flex justify-center">
             <ResultDialog member={randomMember}>
               <Button
-                className={cn("transition-opacity")}
+                className={cn("cursor-pointer transition-opacity")}
                 disabled={!form.formState.isValid}
                 type="submit"
               >
@@ -182,7 +182,11 @@ function ResultDialog({ children, member }: ResultDialogProps) {
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button type="button" variant="destructive">
+            <Button
+              type="button"
+              variant="destructive"
+              className="cursor-pointer"
+            >
               Close
             </Button>
           </DialogClose>
