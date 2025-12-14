@@ -7,7 +7,7 @@ export const ChannelSchema = z.object({
   type: z.string(),
   org: z.string().nullable(),
   group: z.string(),
-  photo: z.string().url().nullable(),
+  photo: z.url().nullable(),
   twitter: z.string().nullable(),
   inactive: z.boolean(),
   twitch: z.string().nullable(),
