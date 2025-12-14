@@ -164,7 +164,7 @@ function ResultDialog({ children, member }: ResultDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-106.25">
         <DialogHeader>
           <DialogTitle>Randomly selected member</DialogTitle>
           <DialogDescription></DialogDescription>
@@ -203,7 +203,7 @@ function OptionsBar() {
   return (
     <div className="mb-6 flex flex-wrap items-center gap-4">
       <Select onValueChange={(value: string) => setSelectedGroup(value)}>
-        <SelectTrigger className="w-[180px] border-gray-300 bg-white text-gray-800">
+        <SelectTrigger className="w-45 border-gray-300 bg-white text-gray-800">
           <SelectValue placeholder="Select group" />
         </SelectTrigger>
         <SelectContent>
@@ -213,7 +213,7 @@ function OptionsBar() {
         </SelectContent>
       </Select>
       <Select onValueChange={(value: string) => setSelectedLanguage(value)}>
-        <SelectTrigger className="w-[180px] border-gray-300 bg-white text-gray-800">
+        <SelectTrigger className="w-45 border-gray-300 bg-white text-gray-800">
           <SelectValue placeholder="Select language" />
         </SelectTrigger>
         <SelectContent>
